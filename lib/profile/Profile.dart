@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:real_estate/profile/PastTours.dart';
+import 'OpenHouseSchedule.dart';
 
 class ProfilePage extends StatelessWidget {
   final String fullName;
@@ -35,16 +37,18 @@ class ProfilePage extends StatelessWidget {
             title: 'Past Tours',
             icon: Icons.home,
             onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PastToursPage()));
             },
           ),
           FunctionalityCard(
             title: 'Open House Schedule',
             icon: Icons.account_tree_sharp,
             onTap: () {
-              // Add navigation logic for selling a property
-              print('Navigate to Sell a Property');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const OpenHouseSchedulePage()));
             },
           ),
           FunctionalityCard(
@@ -81,7 +85,7 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'List my home for rent',
-            icon: Icons.local_attraction_sharp,
+            icon: Icons.add_business_rounded,
             onTap: () {
               // Add navigation logic for buying a property
               print('Navigate to Buy a Property');
@@ -89,7 +93,7 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'Careers',
-            icon: Icons.local_attraction_sharp,
+            icon: Icons.work,
             onTap: () {
               // Add navigation logic for buying a property
               print('Navigate to Buy a Property');
@@ -97,7 +101,7 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'Classes and Events',
-            icon: Icons.local_attraction_sharp,
+            icon: Icons.event,
             onTap: () {
               // Add navigation logic for buying a property
               print('Navigate to Buy a Property');
@@ -105,7 +109,7 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'Your Agent',
-            icon: Icons.local_attraction_sharp,
+            icon: Icons.person,
             onTap: () {
               // Add navigation logic for buying a property
               print('Navigate to Buy a Property');
@@ -115,8 +119,8 @@ class ProfilePage extends StatelessWidget {
             title: 'Settings',
             icon: Icons.settings,
             onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PastToursPage()));
             },
           ),
         ],
