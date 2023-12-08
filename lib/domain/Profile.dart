@@ -1,25 +1,15 @@
 import 'package:flutter/material.dart';
-import 'SettingPage.dart';
 
 class ProfilePage extends StatelessWidget {
-  final String username;
-  final String firstName;
-  final String lastName;
-  final String email;
+  final String fullName;
 
-  const ProfilePage({
-    Key? key,
-    required this.username,
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-  }) : super(key: key);
+  const ProfilePage({Key? key, required this.fullName}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('NOZIMJON NABIYEV'),
+        title: Text(fullName),
         leading: GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, '/edit_profile');
@@ -51,7 +41,7 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'Open House Schedule',
-            icon: Icons.monetization_on,
+            icon: Icons.account_tree_sharp,
             onTap: () {
               // Add navigation logic for selling a property
               print('Navigate to Sell a Property');
@@ -59,7 +49,7 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'Recently Viewed',
-            icon: Icons.home,
+            icon: Icons.remove_red_eye,
             onTap: () {
               // Add navigation logic for buying a property
               print('Navigate to Buy a Property');
@@ -67,7 +57,7 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'Saved Searches',
-            icon: Icons.home,
+            icon: Icons.search,
             onTap: () {
               // Add navigation logic for buying a property
               print('Navigate to Buy a Property');
@@ -75,7 +65,7 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'Viva Premier',
-            icon: Icons.home,
+            icon: Icons.diamond,
             onTap: () {
               // Add navigation logic for buying a property
               print('Navigate to Buy a Property');
@@ -83,7 +73,47 @@ class ProfilePage extends StatelessWidget {
           ),
           FunctionalityCard(
             title: 'Sell Your Home',
-            icon: Icons.home,
+            icon: Icons.local_attraction_sharp,
+            onTap: () {
+              // Add navigation logic for buying a property
+              print('Navigate to Buy a Property');
+            },
+          ),
+          FunctionalityCard(
+            title: 'List my home for rent',
+            icon: Icons.local_attraction_sharp,
+            onTap: () {
+              // Add navigation logic for buying a property
+              print('Navigate to Buy a Property');
+            },
+          ),
+          FunctionalityCard(
+            title: 'Careers',
+            icon: Icons.local_attraction_sharp,
+            onTap: () {
+              // Add navigation logic for buying a property
+              print('Navigate to Buy a Property');
+            },
+          ),
+          FunctionalityCard(
+            title: 'Classes and Events',
+            icon: Icons.local_attraction_sharp,
+            onTap: () {
+              // Add navigation logic for buying a property
+              print('Navigate to Buy a Property');
+            },
+          ),
+          FunctionalityCard(
+            title: 'Your Agent',
+            icon: Icons.local_attraction_sharp,
+            onTap: () {
+              // Add navigation logic for buying a property
+              print('Navigate to Buy a Property');
+            },
+          ),
+          FunctionalityCard(
+            title: 'Settings',
+            icon: Icons.settings,
             onTap: () {
               // Add navigation logic for buying a property
               print('Navigate to Buy a Property');
