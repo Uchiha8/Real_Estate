@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
               backgroundColor: Colors.transparent,
               // Use a transparent background
               backgroundImage: AssetImage(
-                'lib/images/capybara.png',
+                'images/capybara.png',
               ),
             ),
           ),

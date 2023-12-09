@@ -24,7 +24,7 @@ class ProfilePage extends StatelessWidget {
               backgroundColor: Colors.transparent,
               // Use a transparent background
               backgroundImage: AssetImage(
-                'lib/images/capybara.png',
+                'images/capybara.png',
               ),
             ),
           ),
@@ -143,7 +143,7 @@ class FunctionalityCard extends StatelessWidget {
       height: 90.0,
       width: double.infinity,
       // Makes the card take the full width of the screen
-      margin: EdgeInsets.only(bottom: 15.0),
+      margin: const EdgeInsets.only(bottom: 15.0),
       child: Card(
         elevation: 2.0,
         child: ListTile(
@@ -154,7 +154,7 @@ class FunctionalityCard extends StatelessWidget {
           title: Center(
             child: Text(
               title,
-              style: TextStyle(fontSize: 19.0),
+              style: const TextStyle(fontSize: 19.0),
             ),
           ),
           onTap: onTap,
