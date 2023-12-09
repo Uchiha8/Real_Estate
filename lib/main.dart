@@ -4,27 +4,12 @@ import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:real_estate/utils/utils.dart';
 import 'package:real_estate/pages/scene/scene.dart';
-import 'profile/Profile.dart';
 
 void main() => runApp(MyApp());
 
 class LogoAnimation extends StatefulWidget {
   @override
   _LogoAnimationState createState() => _LogoAnimationState();
-  
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: ProfilePage(
-        fullName: "NOZIMJON NABIYEV",
-      ),
-    );
-  }
 }
 
 class _LogoAnimationState extends State<LogoAnimation>
