@@ -5,11 +5,16 @@ import 'package:real_estate/pages/notifications/email_notification.dart';
 import 'package:real_estate/pages/notifications/text_notification.dart';
 
 class SettingsPage extends StatelessWidget {
-  const SettingsPage({super.key});
+  final String title;
+
+  const SettingsPage({Key? key, required this.title}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
       body: ListView(
         padding: EdgeInsets.all(16.0),
         children: [
@@ -47,6 +52,4 @@ class SettingsPage extends StatelessWidget {
       ),
     );
   }
-
-
 }
