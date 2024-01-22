@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:real_estate/pages/home/home_page.dart';
 import 'package:real_estate/pages/signup/registration.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:real_estate/pages/login/forgot_password.dart';
 class LoginScene extends StatefulWidget {
   const LoginScene();
   @override
@@ -18,9 +18,10 @@ class LoginSceneState extends State<LoginScene> {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       // TODO: handle signed-in user (googleUser) here
+
     } catch (error) {
-      // TODO: handle sign-in errors here
-      print('Error signing in with Google: $error');
+    // TODO: handle sign-in errors here
+    print('Error signing in with Google: $error');
     }
   }
 
@@ -33,7 +34,7 @@ class LoginSceneState extends State<LoginScene> {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => HomePage(
+          builder: (context) => bottombar(
             initialUsername: username,
           ),
         ),
@@ -59,14 +60,16 @@ class LoginSceneState extends State<LoginScene> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xffcce2f4),
+      backgroundColor: Color(0xffccd5f0),
       body: SingleChildScrollView(
         child: Center(
           child: Padding(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(15),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+
+                SizedBox(height: 60,),
                 Text(
                   'Login to ViVa Homes!',
                   style: TextStyle(
@@ -75,12 +78,12 @@ class LoginSceneState extends State<LoginScene> {
                     color: Color(0xff1d5482),
                   ),
                 ),
-                SizedBox(height: 20),
+                SizedBox(height: 40),
                 Container(
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
+                    children: [ SizedBox(height:40,),
                       TextFormField(
                         controller: _usernameController,
                         decoration: InputDecoration(
@@ -97,7 +100,8 @@ class LoginSceneState extends State<LoginScene> {
                         ),
                         style: TextStyle(fontSize: 16),
                       ),
-                      SizedBox(height: 20),
+                      SizedBox(height: 40),
+
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
@@ -115,6 +119,22 @@ class LoginSceneState extends State<LoginScene> {
                         ),
                         style: TextStyle(fontSize: 16),
                       ),
+                      Row(children: [ SizedBox(width: 179,),TextButton(
+                        onPressed: () {
+                          // TODO: Implement forgot password functionality
+                          Navigator.pushReplacement(
+                            context,
+                            MaterialPageRoute(builder: (context) => ForgotPasswordScene()),
+                          );
+                        },
+                        child: Text(
+                          'Forgot Password?',
+                          style: TextStyle(
+                            fontSize: 17,
+                            color: Color(0xff350f9c),
+                          ),
+                        ),
+                      ),],),
                     ],
                   ),
                 ),
@@ -123,7 +143,7 @@ class LoginSceneState extends State<LoginScene> {
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     padding:
-                        EdgeInsets.symmetric(horizontal: 100, vertical: 18),
+                    EdgeInsets.symmetric(horizontal: 100, vertical: 18),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
@@ -138,41 +158,32 @@ class LoginSceneState extends State<LoginScene> {
                   ),
                 ),
                 SizedBox(height: 10),
-                TextButton(
-                  onPressed: () {
-                    // TODO: Implement forgot password functionality
-                  },
-                  child: Text(
-                    'Forgot Password?',
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Color(0xff350f9c),
-                    ),
-                  ),
-                ),
+
                 SizedBox(height: 20),
-                Text(
-                  "Don't have an account?",
-                  style: TextStyle(fontSize: 17),
+                TextButton(onPressed:_goToSignUp ,
+                  child: Text(
+                    "Don't have an account?",
+                    style: TextStyle(fontSize: 17),
+                  ),
                 ),
                 SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: _goToSignUp,
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.symmetric(horizontal: 60, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                    backgroundColor: Color(0xff350f9c),
-                  ),
-                  child: Text(
-                    'Signup',
-                    style: TextStyle(
-                      fontSize: 17,
-                      color: Colors.white,
-                    ),
-                  ),
-                ),
+                // ElevatedButton(
+                //   onPressed: _goToSignUp,
+                //   style: ElevatedButton.styleFrom(
+                //     padding: EdgeInsets.symmetric(horizontal: 60, vertical: 15),
+                //     shape: RoundedRectangleBorder(
+                //       borderRadius: BorderRadius.circular(30),
+                //     ),
+                //     backgroundColor: Color(0xff350f9c),
+                //   ),
+                //   child: Text(
+                //     'Signup',
+                //     style: TextStyle(
+                //       fontSize: 17,
+                //       color: Colors.white,
+                //     ),
+                //   ),
+                // ),
                 SizedBox(height: 50),
                 Positioned.fill(
                   child: Align(
@@ -191,7 +202,7 @@ class LoginSceneState extends State<LoginScene> {
                               borderRadius: BorderRadius.circular(30),
                             ),
                             primary: Color(
-                                0xfffb4538), // Replace with your preferred color
+                                0xff350f9c), // Replace with your preferred color
                           ),
                           child: Row(
                             mainAxisSize: MainAxisSize.min,
@@ -203,7 +214,7 @@ class LoginSceneState extends State<LoginScene> {
                               SizedBox(width: 10),
                               Text(
                                 'Continue with Google',
-                                style: TextStyle(fontSize: 16),
+                                style: TextStyle(fontSize: 20, color: Color(0xffffffff)),
                               ),
                             ],
                           ),
@@ -220,7 +231,7 @@ class LoginSceneState extends State<LoginScene> {
                               borderRadius: BorderRadius.circular(30),
                               side: BorderSide(
                                   color:
-                                      Colors.grey), // Add border for visibility
+                                  Colors.grey), // Add border for visibility
                             ),
                           ),
                           child: Row(
@@ -234,7 +245,7 @@ class LoginSceneState extends State<LoginScene> {
                               Text(
                                 'Continue with Email',
                                 style: TextStyle(
-                                    fontSize: 16, color: Colors.black),
+                                    fontSize: 18, color: Colors.black),
                               ),
                             ],
                           ),

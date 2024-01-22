@@ -1,36 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/pages/login/login.dart';
-import 'package:real_estate/pages/home/home_page.dart';
-class RegScene extends StatefulWidget {
-  const RegScene();
+class ForgotPasswordScene extends StatefulWidget {
+  const ForgotPasswordScene();
 
   @override
-  State<StatefulWidget> createState() => RegSceneState();
+  State<StatefulWidget> createState() => ForgotPasswordSceneState();
 }
 
-class RegSceneState extends State<RegScene> {
-  TextEditingController _usernameController = TextEditingController();
+class ForgotPasswordSceneState extends State<ForgotPasswordScene> {
   TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
 
-  void _register() {
-    String username = _usernameController.text;
+  void _sendResetLink() {
     String email = _emailController.text;
-    String password = _passwordController.text;
 
-    // TODO: Implement registration logic here
-    // For example, you might want to validate input fields and then
-    // proceed with user registration.
+    // TODO: Implement logic to send a password reset link to the entered email.
 
-    // After successful registration, you can navigate to the home page or perform other actions.
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => bottombar(
-          initialUsername: username,
-        ),
-      ),
-    );
+    // For example, you might want to call an API or send an email with a reset link.
+
+    // After sending the reset link, you can navigate to a confirmation screen.
+    // Navigator.pushReplacement(
+    //   context,
+    //   MaterialPageRoute(
+    //     builder: (context) => ResetLinkSentScene(),
+    //   ),
+    // );
   }
 
   void _goToLogin() {
@@ -53,7 +46,7 @@ class RegSceneState extends State<RegScene> {
               children: [
                 SizedBox(height: 60,),
                 Text(
-                  'Create an Account',
+                  'Forgot Password',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
@@ -68,45 +61,10 @@ class RegSceneState extends State<RegScene> {
                     children: [
                       SizedBox(height: 40,),
                       TextFormField(
-                        controller: _usernameController,
-                        decoration: InputDecoration(
-                          hintText: 'Username',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 15),
-                        ),
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SizedBox(height: 20),
-                      TextFormField(
                         controller: _emailController,
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
-                          hintText: 'Email',
-                          hintStyle: TextStyle(color: Colors.grey),
-                          filled: true,
-                          fillColor: Colors.white,
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(30),
-                            borderSide: BorderSide.none,
-                          ),
-                          contentPadding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 15),
-                        ),
-                        style: TextStyle(fontSize: 16),
-                      ),
-                      SizedBox(height: 20),
-                      TextFormField(
-                        controller: _passwordController,
-                        obscureText: true,
-                        decoration: InputDecoration(
-                          hintText: 'Password',
+                          hintText: 'Enter your email',
                           hintStyle: TextStyle(color: Colors.grey),
                           filled: true,
                           fillColor: Colors.white,
@@ -124,7 +82,7 @@ class RegSceneState extends State<RegScene> {
                 ),
                 SizedBox(height: 20),
                 ElevatedButton(
-                  onPressed: _register,
+                  onPressed: _sendResetLink,
                   style: ElevatedButton.styleFrom(
                     padding: EdgeInsets.symmetric(horizontal: 100, vertical: 18),
                     shape: RoundedRectangleBorder(
@@ -133,7 +91,7 @@ class RegSceneState extends State<RegScene> {
                     backgroundColor: Color(0xff350f9c),
                   ),
                   child: Text(
-                    'Register',
+                    'Send Reset Link',
                     style: TextStyle(
                       fontSize: 18,
                       color: Color(0xffffffff),
@@ -144,7 +102,7 @@ class RegSceneState extends State<RegScene> {
                 TextButton(
                   onPressed: _goToLogin,
                   child: Text(
-                    'Already have an account? Login',
+                    'Remembered your password? Login',
                     style: TextStyle(fontSize: 17),
                   ),
                 ),

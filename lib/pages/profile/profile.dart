@@ -133,68 +133,6 @@ class ProfilePage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        //currentIndex: _currentIndex,
-        fixedColor: Colors.blue,
-        backgroundColor: Colors.black,
-        iconSize: 20,
-        unselectedItemColor: Colors.grey.withOpacity(0.7),
-        onTap: (index) {
-          //setState(() {
-            //_currentIndex = index;
-          //});
-          switch (index) {
-            case 0:
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => HomePage(
-                          initialUsername: fullName,
-                        )),
-              );
-              break;
-            case 1:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => FavoritesPage()),
-              );
-              break;
-            case 2:
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AppNotificationsPage()),
-              );
-              break;
-            case 3:
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (context) => ProfilePage(
-                          fullName: fullName,
-                        )),
-              );
-              break;
-          }
-        },
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.favorite),
-            label: 'Favorites',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.notifications),
-            label: 'Notifications',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: 'Profile',
-          ),
-        ],
-      ),
     );
   }
 }

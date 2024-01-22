@@ -28,12 +28,12 @@ class PropertyCard extends StatelessWidget {
                     imageUrl: property.coverPhoto ?? "",
                     fit: BoxFit.cover,
                     width: 300.0,
-                    height: 150.0,
+                    height: 200.0,
                     placeholder: (context, url) => Image.asset(
                       'https://placehold.jp/400x250.png',
                       fit: BoxFit.cover,
                       width: 300.0,
-                      height: 150.0,
+                      height: 200.0,
                     ),
                     errorWidget: (context, url, error) => Image.asset(
                       'https://placehold.jp/400x250.png',
@@ -54,13 +54,14 @@ class PropertyCard extends StatelessWidget {
                       width: 30.0,
                       height: 30.0,
                       decoration: BoxDecoration(
-                        color: Colors.blue,
+                        color: Color(0xffccd5f0).withOpacity(0.2),
+                        
                         borderRadius: BorderRadius.circular(6.0),
                       ),
-                      child: Icon(
+                      child:  Icon(
                         Icons.favorite_border,
                         size: 20.0,
-                        color: Colors.white,
+                        color: const Color(0xffffffff).withOpacity(0.6),
                       ),
                     ),
                   ),
