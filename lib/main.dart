@@ -1,11 +1,17 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/gestures.dart';
 import 'dart:ui';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:real_estate/firebase_options.dart';
 import 'package:real_estate/utils/utils.dart';
 import 'package:real_estate/pages/scene/scene.dart';
 
-void main() => runApp(MyApp());
+Future <void> main() async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  runApp(MyApp());}
 
 class LogoAnimation extends StatefulWidget {
   @override

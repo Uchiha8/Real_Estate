@@ -3,6 +3,7 @@ import 'package:real_estate/pages/home/home_page.dart';
 import 'package:real_estate/pages/signup/registration.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:real_estate/pages/login/forgot_password.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 class LoginScene extends StatefulWidget {
   const LoginScene();
   @override
@@ -10,19 +11,40 @@ class LoginScene extends StatefulWidget {
 }
 
 class LoginSceneState extends State<LoginScene> {
+  FirebaseAuth _auth = FirebaseAuth.instance;
   TextEditingController _usernameController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
-  Future<void> _handleGoogleSignIn() async {
+ Future<User?> _handleGoogleSignIn() async {
     try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      // TODO: handle signed-in user (googleUser) here
+      GoogleSignInAccount? googleSignInAccount = await _googleSignIn.signIn();
+      if (googleSignInAccount != null) {
+        // Get GoogleSignInAuthentication object
+        GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
 
+        // Create GoogleSignInCredentials object
+        AuthCredential credential = GoogleAuthProvider.credential(
+          accessToken: googleSignInAuthentication.accessToken,
+          idToken: googleSignInAuthentication.idToken,
+        );
+
+        // Sign in to Firebase with Google credentials
+        UserCredential authResult =
+        await _auth.signInWithCredential(credential);
+
+        // Get the current user
+        User? user = authResult.user;
+
+        return user;}
+   //Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context)=> bottombar(initialUsername: _googleSignIn.currentUser?.displayName,)), (route) => false);
     } catch (error) {
     // TODO: handle sign-in errors here
     print('Error signing in with Google: $error');
-    }
+    return null;
+      }
+
   }
 
   void _login() {
@@ -192,8 +214,21 @@ class LoginSceneState extends State<LoginScene> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         ElevatedButton(
-                          onPressed: () {
-                            _handleGoogleSignIn();
+                          onPressed: () async {
+                            User? user = await _handleGoogleSignIn();
+                            if (user != null) {
+                              Navigator.pushAndRemoveUntil(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => bottombar(
+                                    initialUsername: user.displayName,
+                                  ),
+                                ), (route) => false,
+                              );
+                              print('User signed in: ${user.displayName}');
+                            } else {
+                              print('Sign in failed');
+                            }
                           },
                           style: ElevatedButton.styleFrom(
                             padding: EdgeInsets.symmetric(

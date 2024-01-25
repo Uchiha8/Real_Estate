@@ -154,7 +154,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             SizedBox(height: 5),
                             Text(
-                              "Welcome, " + _username + " 👋",
+                              "Welcome, " + _username ,
                               style: TextStyle(
                                 fontSize: 24,
                                 color: Color(0xcc350f9c),
