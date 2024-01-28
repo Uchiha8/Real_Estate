@@ -49,7 +49,7 @@ class SceneState extends State<Scene> {
                   height: 60 * fem,
                   child: TextButton(
                     onPressed: () {
-                      Navigator.push(
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) => LoginScene()));

@@ -12,8 +12,9 @@ import 'package:real_estate/pages/notifications/app_notifications_page.dart';
 
 class HomePage extends StatefulWidget {
   final String? initialUsername;
+  final String? token;
 
-  HomePage({this.initialUsername});
+  HomePage({this.initialUsername, this.token});
 
   @override
   _HomePageState createState() => _HomePageState();
@@ -159,7 +160,7 @@ class _HomePageState extends State<HomePage> {
                                 fontSize: 24,
                                 color: Color(0xcc350f9c),
                                 fontWeight: FontWeight.w500,
-                              ),
+                              ), overflow: TextOverflow.clip,
                             ),
                           ],
                         ),
@@ -186,7 +187,7 @@ class _HomePageState extends State<HomePage> {
                     Container(
                       padding: EdgeInsets.all(3),
                       height: 57,
-                      decoration: BoxDecoration(
+                      decoration: const BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.all(
                           Radius.circular(30),
@@ -378,7 +379,8 @@ class _HomePageState extends State<HomePage> {
 
 class bottombar extends StatefulWidget {
   final String? initialUsername;
-  const bottombar({this.initialUsername});
+  final String? token;
+  const bottombar({this.initialUsername, this.token});
 
 
 
@@ -397,7 +399,7 @@ class _bottombarState extends State<bottombar> {
     _username = widget.initialUsername ?? 'User';
   }
   late List screens = [
-    HomePage(initialUsername:_username),
+    HomePage(initialUsername:_username, token: widget.token),
     FavoritesPage(),
     const AppNotificationsPage(),
     ProfilePage(fullName: _username)

@@ -4,6 +4,9 @@ import 'package:real_estate/pages/signup/registration.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:real_estate/pages/login/forgot_password.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:http/http.dart'as http;
+import 'dart:convert';
+import 'package:real_estate/banner_info/CustMaterialBanner.dart';
 class LoginScene extends StatefulWidget {
   const LoginScene();
   @override
@@ -12,7 +15,7 @@ class LoginScene extends StatefulWidget {
 
 class LoginSceneState extends State<LoginScene> {
   FirebaseAuth _auth = FirebaseAuth.instance;
-  TextEditingController _usernameController = TextEditingController();
+  TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
   final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
 
@@ -48,29 +51,50 @@ class LoginSceneState extends State<LoginScene> {
   }
 
   void _login() {
-    String username = _usernameController.text;
+    String email = _emailController.text;
     String password = _passwordController.text;
-    // Check username and password here
-    if (username.isNotEmpty && password.isNotEmpty) {
-      // Navigate to the homepage with the username and password
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => bottombar(
-            initialUsername: username,
-          ),
-        ),
-      );
+    final Uri uri = Uri.parse('https://vivahomes.uz/v1/token/');
+    Map<String, dynamic> data = {
+      "email": email,
+      "password": password,
+    };
+    if(email.isEmpty || password.isEmpty){
+      showMaterialBanner(context, 'Please, fill all of the fields', (){ScaffoldMessenger.of(context).clearMaterialBanners();}, 'x');
     } else {
-      // Show an error/snackbar for empty fields
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Please enter username and password'),
-          duration: Duration(seconds: 2),
-        ),
+      showDialog(
+        context: context,
+        barrierDismissible: true,
+        builder: (BuildContext context) {
+          return const AlertDialog(
+            content: Row(
+              children: [
+                CircularProgressIndicator(),
+                SizedBox(width: 16),
+                Text('Logging in...'),
+              ],
+            ),
+          );
+        },
       );
-    }
-  }
+    http.post(uri, body: jsonEncode(data), headers: {'Content-Type': 'application/json'}).then((response) {
+      if (response.statusCode == 200) {
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        String token = jsonResponse['access'];
+        print("token received:$token");
+        Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder:(context)=> bottombar(initialUsername: 'bro', token: token)), (route) => false);
+      } else {
+Future.delayed(Duration(seconds: 0), () {
+  Navigator.of(context).pop();
+});
+        if(response.statusCode == 400){
+          showMaterialBanner(context, 'Wrong email or password', (){ScaffoldMessenger.of(context).clearMaterialBanners();}, 'x');
+}
+        print('Request failed with status: ${response.statusCode}.');
+        showMaterialBanner(context, 'Wrong email or password', (){ScaffoldMessenger.of(context).clearMaterialBanners();}, 'x');
+      }
+    });
+ }}
+
 
   void _goToSignUp() {
     Navigator.pushReplacement(
@@ -91,13 +115,13 @@ class LoginSceneState extends State<LoginScene> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
 
-                SizedBox(height: 60,),
-                Text(
+                const SizedBox(height: 60,),
+                const Text(
                   'Login to ViVa Homes!',
                   style: TextStyle(
                     fontSize: 32,
                     fontWeight: FontWeight.bold,
-                    color: Color(0xff1d5482),
+                    color:  Color(0xff1d5482),
                   ),
                 ),
                 SizedBox(height: 40),
@@ -105,43 +129,43 @@ class LoginSceneState extends State<LoginScene> {
                   padding: EdgeInsets.symmetric(horizontal: 5),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [ SizedBox(height:40,),
+                    children: [ const SizedBox(height:40,),
                       TextFormField(
-                        controller: _usernameController,
+                        controller: _emailController,
                         decoration: InputDecoration(
-                          hintText: 'Username',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintText: 'Email',
+                          hintStyle: const TextStyle(color: Colors.grey),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               horizontal: 25, vertical: 15),
                         ),
-                        style: TextStyle(fontSize: 16),
+                        style: const TextStyle(fontSize: 16),
                       ),
-                      SizedBox(height: 40),
+                      const SizedBox(height: 40),
 
                       TextFormField(
                         controller: _passwordController,
                         obscureText: true,
                         decoration: InputDecoration(
                           hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: const TextStyle(color: Colors.grey),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(30),
                             borderSide: BorderSide.none,
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               horizontal: 25, vertical: 15),
                         ),
                         style: TextStyle(fontSize: 16),
                       ),
-                      Row(children: [ SizedBox(width: 179,),TextButton(
+                      Row(children: [ const SizedBox(width: 179,),TextButton(
                         onPressed: () {
                           // TODO: Implement forgot password functionality
                           Navigator.pushReplacement(
@@ -149,7 +173,7 @@ class LoginSceneState extends State<LoginScene> {
                             MaterialPageRoute(builder: (context) => ForgotPasswordScene()),
                           );
                         },
-                        child: Text(
+                        child: const Text(
                           'Forgot Password?',
                           style: TextStyle(
                             fontSize: 17,
@@ -160,18 +184,18 @@ class LoginSceneState extends State<LoginScene> {
                     ],
                   ),
                 ),
-                SizedBox(height: 20),
+               const SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _login,
                   style: ElevatedButton.styleFrom(
                     padding:
-                    EdgeInsets.symmetric(horizontal: 100, vertical: 18),
+                    const EdgeInsets.symmetric(horizontal: 100, vertical: 18),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                    backgroundColor: Color(0xff350f9c),
+                    backgroundColor: const Color(0xff350f9c),
                   ),
-                  child: Text(
+                  child: const Text(
                     'Login',
                     style: TextStyle(
                       fontSize: 18,
@@ -179,114 +203,97 @@ class LoginSceneState extends State<LoginScene> {
                     ),
                   ),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 TextButton(onPressed:_goToSignUp ,
-                  child: Text(
+                  child: const Text(
                     "Don't have an account?",
                     style: TextStyle(fontSize: 17),
                   ),
                 ),
                 SizedBox(height: 10),
-                // ElevatedButton(
-                //   onPressed: _goToSignUp,
-                //   style: ElevatedButton.styleFrom(
-                //     padding: EdgeInsets.symmetric(horizontal: 60, vertical: 15),
-                //     shape: RoundedRectangleBorder(
-                //       borderRadius: BorderRadius.circular(30),
-                //     ),
-                //     backgroundColor: Color(0xff350f9c),
-                //   ),
-                //   child: Text(
-                //     'Signup',
-                //     style: TextStyle(
-                //       fontSize: 17,
-                //       color: Colors.white,
-                //     ),
-                //   ),
-                // ),
                 SizedBox(height: 50),
-                Positioned.fill(
-                  child: Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () async {
-                            User? user = await _handleGoogleSignIn();
-                            if (user != null) {
-                              Navigator.pushAndRemoveUntil(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => bottombar(
-                                    initialUsername: user.displayName,
-                                  ),
-                                ), (route) => false,
-                              );
-                              print('User signed in: ${user.displayName}');
-                            } else {
-                              print('Sign in failed');
-                            }
-                          },
-                          style: ElevatedButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 18),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                            primary: Color(
-                                0xff350f9c), // Replace with your preferred color
+                Align(
+                  alignment: Alignment.center,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () async {
+                          User? user= null;
+                           user = await _handleGoogleSignIn();
+                          if (user != null) {
+
+                            Navigator.pushAndRemoveUntil(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => bottombar(
+                                  initialUsername: user?.displayName,
+                                ),
+                              ), (route) => false,
+                            );
+                           print('User signed in: ${user.displayName}');
+                          } else {
+                           print('Sign in failed');
+                          }
+                        },
+                        style: ElevatedButton.styleFrom(
+                          padding:const  EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
                           ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                'images/search-1.png', // Replace with Google logo path
-                                height: 24, // Adjust height as needed
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Continue with Google',
-                                style: TextStyle(fontSize: 20, color: Color(0xffffffff)),
-                              ),
-                            ],
+                          backgroundColor: Color(
+                              0xff350f9c), // Replace with your preferred color
+                        ),
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'images/search-1.png', // Replace with Google logo path
+                              height: 24, // Adjust height as needed
+                            ),
+                            SizedBox(width: 10),
+                            Text(
+                              'Continue with Google',
+                              style: TextStyle(fontSize: 20, color: Color(0xffffffff)),
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 20), // Adjust spacing between buttons
+                      TextButton(
+                        onPressed: () {
+                          // Implement Email Sign-In functionality
+                        },
+                        style: TextButton.styleFrom(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 20, vertical: 18),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(30),
+                            side: BorderSide(
+                                color:
+                                Colors.grey), // Add border for visibility
                           ),
                         ),
-                        SizedBox(height: 20), // Adjust spacing between buttons
-                        TextButton(
-                          onPressed: () {
-                            // Implement Email Sign-In functionality
-                          },
-                          style: TextButton.styleFrom(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 20, vertical: 18),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                              side: BorderSide(
-                                  color:
-                                  Colors.grey), // Add border for visibility
+                        child: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Image.asset(
+                              'images/email.png',
+                              height: 24, // Adjust height as needed
                             ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Image.asset(
-                                'images/email.png',
-                                height: 24, // Adjust height as needed
-                              ),
-                              SizedBox(width: 10),
-                              Text(
-                                'Continue with Email',
-                                style: TextStyle(
-                                    fontSize: 18, color: Colors.black),
-                              ),
-                            ],
-                          ),
+                            SizedBox(width: 10),
+                            Text(
+                              'Continue with Email',
+                              style: TextStyle(
+                                  fontSize: 18, color: Colors.black),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
                 ),
               ],

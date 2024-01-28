@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:real_estate/models/property_model.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'package:http/http.dart' as http;
 class PropertyCard extends StatelessWidget {
   const PropertyCard({
     Key? key,
@@ -30,13 +30,13 @@ class PropertyCard extends StatelessWidget {
                     width: 300.0,
                     height: 200.0,
                     placeholder: (context, url) => Image.asset(
-                      'https://placehold.jp/400x250.png',
+                      'https://placehold.jp/300x200.jpg',
                       fit: BoxFit.cover,
                       width: 300.0,
                       height: 200.0,
                     ),
                     errorWidget: (context, url, error) => Image.asset(
-                      'https://placehold.jp/400x250.png',
+                      'https://placehold.jp/300x450.jpg',
                       fit: BoxFit.cover,
                       width: 300.0,
                       height: 450.0,
