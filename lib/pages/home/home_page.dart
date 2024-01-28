@@ -11,17 +11,17 @@ import 'package:real_estate/pages/profile/profile.dart';
 import 'package:real_estate/pages/notifications/app_notifications_page.dart';
 
 class HomePage extends StatefulWidget {
-  final String? initialUsername;
+  final int? userId;
   final String? token;
 
-  HomePage({this.initialUsername, this.token});
+  HomePage({this.userId, this.token});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late String _username;
+  late int _username;
   late double screenHeight;
   late String currentDate;
   late TextEditingController searchController;
@@ -32,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     searchController = TextEditingController();
-    _username = widget.initialUsername ?? 'User';
+    _username = widget.userId ?? 3;
   }
 
   @override
@@ -42,7 +42,7 @@ class _HomePageState extends State<HomePage> {
     currentDate = DateFormat('MMMMEEEEd').format(DateTime.now());
   }
 
-  void updateUsername(String newUsername) {
+  void updateUsername(int newUsername) {
     setState(() {
       _username = newUsername;
     });
@@ -155,7 +155,7 @@ class _HomePageState extends State<HomePage> {
                             ),
                             SizedBox(height: 5),
                             Text(
-                              "Welcome, " + _username ,
+                              "Welcome, $_username",
                               style: TextStyle(
                                 fontSize: 24,
                                 color: Color(0xcc350f9c),
@@ -378,9 +378,9 @@ class _HomePageState extends State<HomePage> {
 }
 
 class bottombar extends StatefulWidget {
-  final String? initialUsername;
+  final int? userId;
   final String? token;
-  const bottombar({this.initialUsername, this.token});
+  const bottombar({required this.userId, required this.token});
 
 
 
@@ -390,19 +390,19 @@ class bottombar extends StatefulWidget {
 
 class _bottombarState extends State<bottombar> {
   List<Property> favouriteProperties=[];
-  late String _username;
+  late int _userId;
   int _currentIndex = 0;
   @override
   void initState() {
     super.initState();
 
-    _username = widget.initialUsername ?? 'User';
+    _userId = widget.userId ?? 0;
   }
   late List screens = [
-    HomePage(initialUsername:_username, token: widget.token),
+    HomePage(userId:_userId, token: widget.token),
     FavoritesPage(),
     const AppNotificationsPage(),
-    ProfilePage(fullName: _username)
+    ProfilePage(fullName: _userId)
   ];
   @override
   Widget build(BuildContext context) {

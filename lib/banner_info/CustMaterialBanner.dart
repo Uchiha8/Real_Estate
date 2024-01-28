@@ -15,11 +15,11 @@ void showMaterialBanner(BuildContext context, String message, VoidCallback onAct
       elevation: 5,
       backgroundColor: Colors.white.withOpacity(0.9),
       surfaceTintColor: Colors.white,
-      margin: EdgeInsets.all(20),
+      margin: const EdgeInsets.all(20),
     ),
   );
 
-  Timer(Duration(seconds: 3), () {
+  Timer(const Duration(seconds: 3), () {
     ScaffoldMessenger.of(context).clearMaterialBanners();
   });
 }

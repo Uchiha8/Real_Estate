@@ -68,11 +68,11 @@ if(validatePassword(password)){
     barrierDismissible: true,
     builder: (BuildContext context) {
       return const AlertDialog(
-        content: Row(
+        content: Row(crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             CircularProgressIndicator(),
             SizedBox(width: 16),
-            Text('Loading...'),
+            Text('Loading...', style: TextStyle(color: Color(0xff350f9c)),),
           ],
         ),
       );
@@ -159,7 +159,7 @@ if(validatePassword(password)){
                         controller: _nameController,
                         decoration: InputDecoration(
                           hintText: 'Name',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(color: Color(0x88350f9c)),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -177,7 +177,7 @@ if(validatePassword(password)){
                         keyboardType: TextInputType.emailAddress,
                         decoration: InputDecoration(
                           hintText: 'Email',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(color: Color(0x88350f9c)),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(
@@ -196,7 +196,7 @@ if(validatePassword(password)){
 
                         decoration: InputDecoration(
                           hintText: 'Password',
-                          hintStyle: TextStyle(color: Colors.grey),
+                          hintStyle: TextStyle(color: Color(0x88350f9c)),
                           filled: true,
                           fillColor: Colors.white,
                           border: OutlineInputBorder(

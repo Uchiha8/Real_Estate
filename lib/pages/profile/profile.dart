@@ -7,7 +7,7 @@ import 'open_house.dart';
 import 'settings.dart';
 
 class ProfilePage extends StatelessWidget {
-  final String fullName;
+  final int fullName;
 
   const ProfilePage({Key? key, required this.fullName}) : super(key: key);
 
@@ -15,7 +15,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(fullName),
+        title: Text(fullName.toString()),
         leading: GestureDetector(
           onTap: () {
             Navigator.pushNamed(context, '/edit_profile');
