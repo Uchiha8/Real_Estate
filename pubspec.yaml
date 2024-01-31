@@ -12,6 +12,8 @@ dependencies:
   carousel_slider: ^4.0.0
   firebase_core: ^2.24.2
   firebase_auth: ^4.16.0
+  photo_view: any
+  url_launcher: ^6.1.5
 
 
 dev_dependencies:

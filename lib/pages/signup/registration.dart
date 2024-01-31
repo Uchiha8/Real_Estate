@@ -90,6 +90,7 @@ if(validatePassword(password)){
 
     if (response.statusCode == 201) {
       // Successful creation of the user
+      Navigator.of(context).pop();
       showMaterialBanner(context, 'Account successfully created ', _goToLogin,'go to Login');
       print('User created: ${response.body}');
     } else {

@@ -60,7 +60,21 @@ class _HomePageState extends State<HomePage> {
     List<Property> featuredProperties = [
       Property(
         title: 'Beautiful Villa',
-        description: 'Dream home for sale',
+        description: """A "Beautiful Villa" is more than just a house; it's a captivating haven that intertwines elegance with comfort. Imagine a residence where architectural mastery meets nature's embrace, creating a harmonious blend of luxury and tranquility.
+
+As you approach, the villa stands as a testament to exquisite design, featuring graceful lines, captivating details, and an aura of sophistication. The exterior, a picturesque canvas, showcases meticulous landscaping, perhaps framed by swaying palms or nestled against a backdrop of rolling hills.
+
+Upon entering, you're welcomed by a sense of openness. The interiors boast expansive spaces adorned with tasteful decor, where every element has been carefully chosen to evoke a feeling of opulence. Sunlight filters through large windows, casting a warm glow that accentuates the carefully curated furnishings.
+
+The heart of this beautiful villa is not just the structure itself but the lifestyle it offers. Imagine waking up to stunning views from a master suite that feels like a sanctuary. Picture a gourmet kitchen, a space where culinary artistry meets modern convenience, inviting you to create and entertain.
+
+Step outside, and the villa unfolds into a private oasis. A well-designed garden surrounds a sparkling pool, creating a retreat where the boundaries between indoor and outdoor living blur. It's a space for relaxation, for basking in the sun or enjoying an evening under the stars.
+
+Luxurious amenities abound – perhaps a spa-like bathroom, a home theater, or a cozy fireplace for intimate gatherings. Each room tells a story of meticulous craftsmanship and attention to detail.
+
+Privacy is paramount, with the villa ideally situated to offer seclusion while maintaining a connection to the beauty that surrounds it. Whether perched on a hillside or nestled within a gated community, this residence provides a retreat from the bustle of the world.
+
+A "Beautiful Villa" transcends the notion of a mere dwelling; it embodies a lifestyle. It's an investment in not just a property but in a curated experience that elevates daily living to an art form. This is where the canvas of your life is painted with moments of serenity, beauty, and the luxury of being at home.""",
         baths: 3,
         rooms: 4,
         price: 100000000,

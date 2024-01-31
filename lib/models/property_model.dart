@@ -1,3 +1,4 @@
+import 'agent_model.dart';
 class Property {
   String? propertyID;
   String? coverPhoto;
@@ -11,6 +12,7 @@ class Property {
   int? rooms;
   int? baths;
   double? price;
+  //Agent agentid;
 
   Property({
     this.propertyID,
@@ -25,6 +27,7 @@ class Property {
     this.rooms,
     this.baths,
     this.price,
+   // required this.agentid,
   });
 
   // Factory method to convert JSON into a PropertyModel instance
@@ -42,6 +45,7 @@ class Property {
       rooms: json['rooms'] as int?,
       baths: json['baths'] as int?,
       price: json['price'] as double?,
+      //agentid: json['agentid'] as Agent,
     );
   }
 

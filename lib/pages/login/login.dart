@@ -96,6 +96,11 @@ class LoginSceneState extends State<LoginScene> {
             );
           } else {
             // Handle error for the second HTTP request
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Request failed with status: ${getUserResponse.statusCode}.'),
+              ),
+            );
             print('Request failed with status: ${getUserResponse.statusCode}.');
           }
         });
