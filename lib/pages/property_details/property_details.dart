@@ -58,6 +58,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
+
               ),
             ),
             Padding(
@@ -66,10 +67,115 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   SizedBox(height: 20),
-                  Text(
-                    widget.property.title ?? '',
-                    style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xff350f9c)),
+                  Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        widget.property.title ?? '',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Color(0xff350f9c)),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          // Custom logic to toggle bookmark
+                        },
+                        child: Container(
+                          width: 40.0,
+                          height: 40.0,
+
+                          decoration: BoxDecoration(
+                            color: Color(0x00000000),
+                      backgroundBlendMode: BlendMode.colorBurn,
+                            borderRadius: BorderRadius.circular(12.0),
+                          ),
+                          child:  Icon(
+                            Icons.favorite_border,
+                            size: 30.0,
+                            color: const Color(0xffffffff).withOpacity(0.6),
+                          ),
+                        ),
+                      ),
+
+                    ],
                   ),
+                  Container(
+                    padding: EdgeInsets.all(16.0),
+                    margin: EdgeInsets.symmetric(vertical: 10.0),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                      borderRadius: BorderRadius.circular(12.0),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0xffdde5ff).withOpacity(1),
+                          spreadRadius: 3,
+                          blurRadius: 3,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                       
+
+                        // Two-column layout for Property Details
+                        Row(
+                          children: [
+                            // Left Column
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Room Numbers
+                                  Row(
+                                    children: [
+                                      Icon(Icons.king_bed, color: Color(0xff350f9c)),
+                                      SizedBox(width: 5),
+                                      Text('Rooms: ${widget.property.rooms ?? "N/A"}'),
+                                    ],
+                                  ),
+
+                                  // Bathrooms
+                                  Row(
+                                    children: [
+                                      Icon(Icons.bathtub, color: Color(0xff350f9c)),
+                                      SizedBox(width: 5),
+                                      Text('Bathrooms: ${widget.property.baths ?? "N/A"}'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+
+                            // Right Column
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  // Area
+                                  Row(
+                                    children: [
+                                      Icon(Icons.square_foot, color: Color(0xff350f9c)),
+                                      SizedBox(width: 5),
+                                      Text('Area: ${widget.property.baths?? "N/A"} sqft'),
+                                    ],
+                                  ),
+
+                                  // Status
+                                  Row(
+                                    children: [
+                                      Icon(Icons.info, color: Color(0xff350f9c)),
+                                      SizedBox(width: 5),
+                                      Text('Status: ${widget.property.type ?? "N/A"}'),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
+
                   SizedBox(height: 10),
                   Text(
                     'Description:',
@@ -110,6 +216,9 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color(0xff350f9c)),
                       ),
                     ],
+
+
+
                   ),
                   SizedBox(height: 25),
                   Row(mainAxisAlignment: MainAxisAlignment.center,

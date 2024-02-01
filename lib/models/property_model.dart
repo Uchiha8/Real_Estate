@@ -12,8 +12,8 @@ class Property {
   int? rooms;
   int? baths;
   double? price;
-  //Agent agentid;
-
+  // Agent agentid;
+  //
   Property({
     this.propertyID,
     this.coverPhoto,
@@ -64,6 +64,7 @@ class Property {
       'rooms': rooms,
       'baths': baths,
       'price': price,
+      // 'agentid': agentid,
     };
   }
 }
