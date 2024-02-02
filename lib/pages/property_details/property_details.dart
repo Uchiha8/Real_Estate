@@ -29,7 +29,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
       try {
         // Replace 'YOUR_AGENT_API_ENDPOINT' with the actual API endpoint for fetching agent details
         final response = await http.get(
-          Uri.parse('https://vivahomes.uz/v1/agents/${widget.property.agent}'),
+          Uri.parse('https://vivahomes.uz/v1/agents/4'),
         );
 
         if (response.statusCode == 200) {

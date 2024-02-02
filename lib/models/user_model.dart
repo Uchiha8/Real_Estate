@@ -1,6 +1,6 @@
 import 'package:intl/intl.dart';
 
-class User {
+class CustomUser {
   final int id;
   final String password;
   final DateTime? lastLogin;
@@ -11,7 +11,7 @@ class User {
   final bool isActive;
   final String? profileImage;
 
-  User({
+  CustomUser({
     required this.id,
     required this.password,
     this.lastLogin,
@@ -23,8 +23,8 @@ class User {
     this.profileImage,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
+  factory CustomUser.fromJson(Map<String, dynamic> json) {
+    return CustomUser(
       id: json['id'],
       password: json['password'],
       role: json['role'],

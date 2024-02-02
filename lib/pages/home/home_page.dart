@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:real_estate/models/enums/currency.dart';
@@ -15,19 +16,21 @@ import 'package:http/http.dart'as http;
 import 'dart:convert';
 import 'view_all.dart';
 import 'dart:async';
+import 'package:real_estate/models/user_model.dart';
+
 
 class HomePage extends StatefulWidget {
-  final int? userId;
-  final String? token;
+  final CustomUser? user;
 
-  HomePage({this.userId, this.token});
+
+  HomePage({required this.user});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late int _username;
+  late String _username;
   late double screenHeight;
   late String currentDate;
   late TextEditingController searchController;
@@ -45,7 +48,7 @@ class _HomePageState extends State<HomePage> {
   void initState()  {
     super.initState();
     searchController = TextEditingController();
-    _username = widget.userId ?? 3;
+    _username = widget.user!.firstName;
    fetchData();
 
   }
@@ -98,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     currentDate = DateFormat('MMMMEEEEd').format(DateTime.now());
   }
 
-  void updateUsername(int newUsername) {
+  void updateUsername(String newUsername) {
     setState(() {
       _username = newUsername;
     });
@@ -428,7 +431,7 @@ class bottombar extends StatefulWidget {
 }
 
 class _bottombarState extends State<bottombar> {
-
+  CustomUser? user;
   late int _userId;
   int _currentIndex = 0;
   @override
@@ -436,12 +439,37 @@ class _bottombarState extends State<bottombar> {
     super.initState();
 
     _userId = widget.userId ?? 0;
+    fetchUserData();
+print(_userId);
+    print(widget.token);
+    print("user id" + _userId.toString());
   }
+
+
+  Future<void> fetchUserData() async {
+    try {
+      final response = await http.get(
+        Uri.parse('https://vivahomes.uz/v1/users/${widget.userId}/'),
+        headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2ODc4NDM3LCJpYXQiOjE3MDY4NzEyMzcsImp0aSI6IjM1MGI2MGViODlkMDQ1YWU5YzM5ZTQ1YTUyM2NlMGUxIiwidXNlcl9pZCI6MX0.Gvfwe0tyiy5Uh934KgKRwSg6Xswq-dhIFNxX2wZ8NNg'},
+      );
+
+      if (response.statusCode == 200) {
+        print("Success");
+        final Map<String, dynamic> data = jsonDecode(response.body);
+        user = CustomUser.fromJson(data["user"]);
+      } else {
+        print('Error fetching user data. Status code: ${response.statusCode}');
+      }
+    } catch (error) {
+      print('Error fetching user data: $error');
+    }
+  }
+
   late List screens = [
-    HomePage(userId:_userId, token: widget.token),
+    HomePage( user: user,),
     FavoritesPage(),
     const AppNotificationsPage(),
-    ProfilePage(fullName: _userId)
+    ProfilePage(user: user!),
   ];
   @override
   Widget build(BuildContext context) {

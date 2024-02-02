@@ -3,7 +3,7 @@ import 'package:real_estate/models/contact_model.dart';
 
 class Agent {
   final int id;
-  final User user;
+  final CustomUser user;
   final Contact contact;
   final String license;
   final double? rating;
@@ -19,7 +19,7 @@ class Agent {
   factory Agent.fromJson(Map<String, dynamic> json) {
     return Agent(
       id: json['id'],
-      user: User.fromJson(json['user']),
+      user: CustomUser.fromJson(json['user']),
       contact: Contact.fromJson(json['contact']),
       license: json['license'],
       rating: json['rating'],
