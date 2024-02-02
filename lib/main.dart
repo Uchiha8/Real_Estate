@@ -53,7 +53,7 @@ class _LogoAnimationState extends State<LogoAnimation>
           // Navigate to bottombar with required parameters
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
-              builder: (_) => bottombar(
+              builder: (_) => bottomBar(
                 userId: userId, // Replace with your logic to get the actual user ID
                 token: token, // Replace with your logic to get the actual user token
               ),

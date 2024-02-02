@@ -97,7 +97,7 @@ class LoginSceneState extends State<LoginScene> {
             prefs.setString('token', token!);
             Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(builder: (context) => bottombar(userId: userId, token: token)),
+              MaterialPageRoute(builder: (context) => bottomBar(userId: userId, token: token)),
                   (route) => false,
             );
           } else {
@@ -270,7 +270,7 @@ class LoginSceneState extends State<LoginScene> {
                             Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => bottombar(
+                                builder: (context) => bottomBar(
                                   userId: 2,
                                   token: user?.uid,
 

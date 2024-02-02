@@ -30,7 +30,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  late String _username;
+  late String? _username;
   late double screenHeight;
   late String currentDate;
   late TextEditingController searchController;
@@ -48,7 +48,8 @@ class _HomePageState extends State<HomePage> {
   void initState()  {
     super.initState();
     searchController = TextEditingController();
-    _username = widget.user!.firstName;
+    _username = widget.user?.firstName??'uxshamadi';
+    print(widget.user?.firstName??'uxshamadi');
    fetchData();
 
   }
@@ -110,7 +111,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-if(isLoading){return Center(child: CircularProgressIndicator(color: Colors.blue));} else{
+if(isLoading){return const Center(child: CircularProgressIndicator(semanticsLabel: "W..ait for the magic",color: Color(0xffccd5f0), strokeCap: StrokeCap.round,strokeWidth: 10, strokeAlign: BorderSide.strokeAlignCenter,));} else{
 
 
     final now = DateTime.now();
@@ -419,20 +420,20 @@ if(isLoading){return Center(child: CircularProgressIndicator(color: Colors.blue)
   }}
 }
 
-class bottombar extends StatefulWidget {
+class bottomBar extends StatefulWidget {
   final int? userId;
   final String? token;
-  const bottombar({required this.userId, required this.token});
+  const bottomBar({super.key, required this.userId, required this.token});
 
 
 
   @override
-  State<bottombar> createState() => _bottombarState();
+  State<bottomBar> createState() => _bottomBarState();
 }
 
-class _bottombarState extends State<bottombar> {
+class _bottomBarState extends State<bottomBar> {
   CustomUser? user;
-  late int _userId;
+   int? _userId;
   int _currentIndex = 0;
   @override
   void initState() {
@@ -450,13 +451,16 @@ print(_userId);
     try {
       final response = await http.get(
         Uri.parse('https://vivahomes.uz/v1/users/${widget.userId}/'),
-        headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2ODc4NDM3LCJpYXQiOjE3MDY4NzEyMzcsImp0aSI6IjM1MGI2MGViODlkMDQ1YWU5YzM5ZTQ1YTUyM2NlMGUxIiwidXNlcl9pZCI6MX0.Gvfwe0tyiy5Uh934KgKRwSg6Xswq-dhIFNxX2wZ8NNg'},
+        headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2OTYzNTAxLCJpYXQiOjE3MDY5NTYzMDEsImp0aSI6IjEyMWE3Y2Q2YzJhNzRkNjU5M2MwZmU1NDM2NmYxMTliIiwidXNlcl9pZCI6MX0.ox8aKrSnJ73Dq9aQfC-9hMwrC3vcC0MR74MGcWKklPU'},
       );
 
       if (response.statusCode == 200) {
         print("Success");
         final Map<String, dynamic> data = jsonDecode(response.body);
-        user = CustomUser.fromJson(data["user"]);
+        print(data);
+        user = CustomUser.fromJson(data);
+        print(user?.id??0);
+        print(user);
       } else {
         print('Error fetching user data. Status code: ${response.statusCode}');
       }
@@ -469,7 +473,7 @@ print(_userId);
     HomePage( user: user,),
     FavoritesPage(),
     const AppNotificationsPage(),
-    ProfilePage(user: user!),
+    ProfilePage(user: user),
   ];
   @override
   Widget build(BuildContext context) {

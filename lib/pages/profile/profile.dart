@@ -8,7 +8,7 @@ import 'open_house.dart';
 import 'settings.dart';
 import 'package:real_estate/models/user_model.dart';
 class ProfilePage extends StatelessWidget {
-  final CustomUser user;
+  final CustomUser? user;
 
   const ProfilePage({Key? key, required this.user}) : super(key: key);
 
@@ -163,22 +163,26 @@ class FunctionalityCard extends StatelessWidget {
   final IconData icon;
   final VoidCallback onTap;
 
-  FunctionalityCard(
-      {required this.title, required this.icon, required this.onTap});
+   const FunctionalityCard(
+      {super.key, required this.title, required this.icon, required this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 90.0,
+
+      height: 80.0,
       width: double.infinity,
 // Makes the card take the full width of the screen
-      margin: const EdgeInsets.only(bottom: 15.0),
+      margin: const EdgeInsets.only(bottom: 0.0),
       child: Card(
-        elevation: 2.0,
+        semanticContainer: false,
+        borderOnForeground: true,
+        elevation: 0.0,
         child: ListTile(
           leading: Icon(
             icon,
             size: 35.0,
+            color: const Color(0xff350f9c),
           ),
           title: Center(
             child: Text(
