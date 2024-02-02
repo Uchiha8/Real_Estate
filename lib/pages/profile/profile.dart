@@ -3,42 +3,141 @@ import 'package:real_estate/pages/favorites/favorites_page.dart';
 import 'package:real_estate/pages/home/home_page.dart';
 import 'package:real_estate/pages/notifications/app_notifications_page.dart';
 import 'package:real_estate/pages/profile/past_tours.dart';
+import 'package:real_estate/pages/profile/update_profile_page.dart';
 import 'open_house.dart';
 import 'settings.dart';
-
+import 'package:real_estate/models/user_model.dart';
 class ProfilePage extends StatelessWidget {
-  final int fullName;
+  final CustomUser user;
 
-  const ProfilePage({Key? key, required this.fullName}) : super(key: key);
+  const ProfilePage({Key? key, required this.user}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(fullName.toString()),
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pushNamed(context, '/edit_profile');
-          },
-          child: const Padding(
-            padding: EdgeInsets.all(8.0),
-            child: CircleAvatar(
-              radius: 20.0,
-              // Adjust the size of the CircleAvatar
-              backgroundColor: Colors.transparent,
-              // Use a transparent background
-              backgroundImage: AssetImage(
-                'images/capybara.png',
+        automaticallyImplyLeading: false,
+        title: const Row(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+// CircleAvatar(
+// radius: 20,
+// backgroundImage: AssetImage('images/capybara.png'),
+// ),
+            SizedBox(width: 25),
+            Text(
+              'Viva Profile',
+              style: TextStyle(
+                color: Color(0xff350f9c),
+                fontFamily: 'Poppins',
+                fontSize: 25,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+        backgroundColor: const Color(0xffccd5f0),
+        elevation: 3,
+      ),
+      backgroundColor: const Color(0x77ccd5f0),
+      body: ListView(
+        padding: const EdgeInsets.all(16.0),
+        children: [
+// Align(
+// alignment: Alignment.topCenter,
+// child: CircleAvatar(
+// radius: 60,
+// backgroundImage: AssetImage('images/capybara.png'),
+// ),
+// ),
+          SizedBox(height: 20),
+          Align(
+            alignment: Alignment.topCenter,
+            child: Container(
+
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: const Color(0xffccd5f0),
+                borderRadius: BorderRadius.circular(10.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.transparent,
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
+                  ),
+                ],
+              ),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 60,
+                    backgroundImage: AssetImage('images/capybara.png'),
+                  ),
+                  SizedBox(height: 10),
+// Adding sample data fields in a stylized container
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: const Text(
+                      "Full Name: John Coe",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(0xcc350f9c),
+                        fontWeight: FontWeight.w500,
+                      ), overflow: TextOverflow.clip,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: const Text(
+                      "Location: Sergeli, Tashkent,",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(0xcc350f9c),
+                        fontWeight: FontWeight.w500,
+                      ), overflow: TextOverflow.clip,
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.transparent),
+                      borderRadius: BorderRadius.circular(5.0),
+                    ),
+                    child: const Text(
+                      "Contact: +998 90 977 34 55",
+                      style: TextStyle(
+                        fontSize: 18,
+                        color: Color(0xcc350f9c),
+                        fontWeight: FontWeight.w500,
+                      ), overflow: TextOverflow.clip,
+                    ),
+                  ),
+                ],
               ),
             ),
           ),
-        ),
-      ),
-      body: ListView(
-        padding: EdgeInsets.all(16.0),
-        children: [
+          SizedBox(height: 30),
           FunctionalityCard(
-            title: 'Past Tours',
+            title: 'Update Profile',
+            icon: Icons.home,
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => UpdateProfilePage()));
+            },
+          ),
+          FunctionalityCard(
+            title: 'Settings',
             icon: Icons.home,
             onTap: () {
               Navigator.push(context,
@@ -46,89 +145,11 @@ class ProfilePage extends StatelessWidget {
             },
           ),
           FunctionalityCard(
-            title: 'Open House Schedule',
-            icon: Icons.account_tree_sharp,
+            title: 'Past Tours',
+            icon: Icons.home,
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const OpenHouseSchedulePage()));
-            },
-          ),
-          FunctionalityCard(
-            title: 'Recently Viewed',
-            icon: Icons.remove_red_eye,
-            onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
-            },
-          ),
-          FunctionalityCard(
-            title: 'Saved Searches',
-            icon: Icons.search,
-            onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
-            },
-          ),
-          FunctionalityCard(
-            title: 'Viva Premier',
-            icon: Icons.diamond,
-            onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
-            },
-          ),
-          FunctionalityCard(
-            title: 'Sell Your Home',
-            icon: Icons.local_attraction_sharp,
-            onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
-            },
-          ),
-          FunctionalityCard(
-            title: 'List my home for rent',
-            icon: Icons.add_business_rounded,
-            onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
-            },
-          ),
-          FunctionalityCard(
-            title: 'Careers',
-            icon: Icons.work,
-            onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
-            },
-          ),
-          FunctionalityCard(
-            title: 'Classes and Events',
-            icon: Icons.event,
-            onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
-            },
-          ),
-          FunctionalityCard(
-            title: 'Your Agent',
-            icon: Icons.person,
-            onTap: () {
-              // Add navigation logic for buying a property
-              print('Navigate to Buy a Property');
-            },
-          ),
-          FunctionalityCard(
-            title: 'Settings',
-            icon: Icons.settings,
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const SettingsPage(
-                            title: "Settings",
-                          )));
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => PastToursPage()));
             },
           ),
         ],
@@ -150,7 +171,7 @@ class FunctionalityCard extends StatelessWidget {
     return Container(
       height: 90.0,
       width: double.infinity,
-      // Makes the card take the full width of the screen
+// Makes the card take the full width of the screen
       margin: const EdgeInsets.only(bottom: 15.0),
       child: Card(
         elevation: 2.0,
