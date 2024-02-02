@@ -1,8 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'package:real_estate/models/enums/currency.dart';
-import 'package:real_estate/models/image_model.dart';
 import 'widgets/icon_text.dart';
 import 'package:real_estate/pages/search/search_page.dart';
 import 'widgets/property_card.dart';
@@ -23,14 +20,14 @@ class HomePage extends StatefulWidget {
   final CustomUser? user;
 
 
-  HomePage({required this.user});
+  const HomePage({super.key, required this.user});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  late String? _username;
+  String? _username;
   late double screenHeight;
   late String currentDate;
   late TextEditingController searchController;
@@ -43,13 +40,14 @@ class _HomePageState extends State<HomePage> {
 
   ];
 
-
   @override
   void initState()  {
+_username = widget.user?.firstName;
     super.initState();
+    print(widget.user?.id);
     searchController = TextEditingController();
-    _username = widget.user?.firstName??'uxshamadi';
-    print(widget.user?.firstName??'uxshamadi');
+
+    print(widget.user?.firstName??'nega');
    fetchData();
 
   }
@@ -80,7 +78,7 @@ class _HomePageState extends State<HomePage> {
         onRentProperties = (onRentJson as List)
             .map((property) => Property.fromJson(property))
             .toList();
-        print(onRentProperties[1].images.images);
+
       } else {
         throw Exception('Failed to load trending properties');
       }
@@ -117,7 +115,7 @@ if(isLoading){return const Center(child: CircularProgressIndicator(semanticsLabe
     final now = DateTime.now();
     String currentDate = DateFormat('MMMMEEEEd').format(now);
     final TextEditingController searchController = TextEditingController();
-    bool isLoading = false;
+
 
 
 
@@ -314,9 +312,13 @@ if(isLoading){return const Center(child: CircularProgressIndicator(semanticsLabe
 
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                                content: Text('Please enter a search query')),
-                          );
+                            SnackBar(clipBehavior: Clip.antiAliasWithSaveLayer,
+                              showCloseIcon: true,
+                              backgroundColor: Color(0xffc5cae9),
+
+                                closeIconColor: Color(0xff350f9c),
+                                content: Text('Please enter a search query', style: TextStyle(color: Color(0xff350f9c,))),
+                            ),);
                         }
                       },
                       child: Container(
@@ -348,6 +350,7 @@ if(isLoading){return const Center(child: CircularProgressIndicator(semanticsLabe
                 text: "On Sale" ,
 
                 onTap: () {
+                  print(widget.user?.id);
                  Navigator.push(context,  MaterialPageRoute(
                     builder: (context) => ViewAllPage(properties: onSaleProperties),
                   ));
@@ -355,9 +358,7 @@ if(isLoading){return const Center(child: CircularProgressIndicator(semanticsLabe
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
-                child: isLoading
-                    ?  CircularProgressIndicator(color: Colors.blue)
-                    : Container(
+                child : Container(
                   width: double.infinity,
                   height: 350.0,
                   child: ListView.builder(
@@ -387,9 +388,7 @@ if(isLoading){return const Center(child: CircularProgressIndicator(semanticsLabe
               );}),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
-                child: isLoading
-                    ? CircularProgressIndicator(color: Colors.blue)
-                    : Container(
+                child: Container(
                   width: double.infinity,
                   height: 350.0,
                   child: ListView.builder(
@@ -437,10 +436,10 @@ class _bottomBarState extends State<bottomBar> {
   int _currentIndex = 0;
   @override
   void initState() {
-    super.initState();
-
-    _userId = widget.userId ?? 0;
     fetchUserData();
+    super.initState();
+    _userId = widget.userId ?? 0;
+
 print(_userId);
     print(widget.token);
     print("user id" + _userId.toString());
@@ -451,16 +450,17 @@ print(_userId);
     try {
       final response = await http.get(
         Uri.parse('https://vivahomes.uz/v1/users/${widget.userId}/'),
-        headers: {'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzA2OTYzNTAxLCJpYXQiOjE3MDY5NTYzMDEsImp0aSI6IjEyMWE3Y2Q2YzJhNzRkNjU5M2MwZmU1NDM2NmYxMTliIiwidXNlcl9pZCI6MX0.ox8aKrSnJ73Dq9aQfC-9hMwrC3vcC0MR74MGcWKklPU'},
+        headers: {'Authorization': 'Bearer ${widget.token}'},
       );
 
       if (response.statusCode == 200) {
         print("Success");
+        print(response.body);
         final Map<String, dynamic> data = jsonDecode(response.body);
         print(data);
         user = CustomUser.fromJson(data);
-        print(user?.id??0);
-        print(user);
+
+
       } else {
         print('Error fetching user data. Status code: ${response.statusCode}');
       }
@@ -470,14 +470,13 @@ print(_userId);
   }
 
   late List screens = [
-    HomePage( user: user,),
+    HomePage( user: user),
     FavoritesPage(),
     const AppNotificationsPage(),
     ProfilePage(user: user),
   ];
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme= Theme.of(context);
     return MaterialApp( debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: screens.elementAt(_currentIndex),
