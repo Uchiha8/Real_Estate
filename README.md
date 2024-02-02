@@ -1,4 +1,8 @@
-# real_estate
+
+
+
+
+#real_estate
 
 A new Flutter project.
 
@@ -7,6 +11,7 @@ A new Flutter project.
 This project is a starting point for a Flutter application.
 
 A few resources to get you started if this is your first Flutter project:
+
 
 - [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
 - [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
@@ -76,10 +81,19 @@ The `FunctionalityCard` class represents a card displaying a specific functional
 - `icon`: The icon representing the functionality.
 - `onTap`: Callback function triggered when the card is tapped.
 
+
+https://github.com/Uchiha8/Real_Estate/assets/106523466/999654b7-66e2-4476-afa1-8f5991b4e5aa
+
 ## Usage
 
 To use this code, make sure to have Flutter installed. Run the app using:
 
 ```bash
 flutter run
+
+
+
+
+
+
 
