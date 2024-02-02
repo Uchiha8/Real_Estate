@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:real_estate/firebase_options.dart';
 import 'package:real_estate/utils/utils.dart';
 import 'package:real_estate/pages/scene/scene.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:real_estate/pages/home/home_page.dart';
 
 Future <void> main() async{
   WidgetsFlutterBinding.ensureInitialized();
@@ -41,8 +43,23 @@ class _LogoAnimationState extends State<LogoAnimation>
 
     _animationController.forward();
 
-    _animationController.addStatusListener((status) {
+    _animationController.addStatusListener((status) async {
       if (status == AnimationStatus.completed) {
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        int? userId = prefs.getInt('user_id');
+        String? token = prefs.getString('token');
+
+        if (userId != null && token != null) {
+          // Navigate to bottombar with required parameters
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (_) => bottombar(
+                userId: userId, // Replace with your logic to get the actual user ID
+                token: token, // Replace with your logic to get the actual user token
+              ),
+            ),
+          );
+        } else {
         // Navigate to login screen after animation completes
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
@@ -50,7 +67,7 @@ class _LogoAnimationState extends State<LogoAnimation>
           ),
         );
       }
-    });
+    }});
   }
 
   @override

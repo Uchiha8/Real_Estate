@@ -9,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart'as http;
 import 'dart:convert';
 import 'package:real_estate/banner_info/CustMaterialBanner.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 class LoginScene extends StatefulWidget {
   const LoginScene();
   @override
@@ -52,7 +53,7 @@ class LoginSceneState extends State<LoginScene> {
 
   }
 
-  void _login() {
+  void _login()  {
 
    String? token;
     String email = _emailController.text;
@@ -82,14 +83,18 @@ class LoginSceneState extends State<LoginScene> {
       );
     http.post(uri, body: jsonEncode(data), headers: {'Content-Type': 'application/json'}).then((response) {
       if (response.statusCode == 200) {
+
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
         token = jsonResponse['access'];
         http.get(Uri.parse('https://vivahomes.uz/v1/user/'), headers: {'Authorization': 'Bearer $token'})
-            .then((getUserResponse) {
+            .then((getUserResponse) async {
           if (getUserResponse.statusCode == 200) {
             Map<String,dynamic> data = jsonDecode(getUserResponse.body);
             print(getUserResponse);
             int userId = data['user_id'];
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setInt('user_id', userId);
+            prefs.setString('token', token!);
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(builder: (context) => bottombar(userId: userId, token: token)),

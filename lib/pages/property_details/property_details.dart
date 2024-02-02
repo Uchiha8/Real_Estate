@@ -33,6 +33,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
         );
 
         if (response.statusCode == 200) {
+          print(response.body);
           final Map<String, dynamic> agentData = json.decode(response.body);
           setState(() {
             agent = Agent.fromJson(agentData);
@@ -254,7 +255,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
 
                   ),
                   Row(children: [SizedBox(width: 150,),
-                  Container(height: 2,width: 210,color: Color(0xff350f9c),)],),
+                  Container(height: 2,width: 226 ,color: Color(0xff350f9c),)],),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
