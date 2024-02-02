@@ -14,6 +14,7 @@ dependencies:
   firebase_auth: ^4.16.0
   photo_view: any
   url_launcher: ^6.1.5
+  http: any
 
 
 dev_dependencies:
@@ -34,10 +35,10 @@ flutter:
   assets:
     - images/logo.png
     - images/house.jpg
-    - images/whoa-1.png
-    - images/new-beginnings-1-bg.png
+
+
     - images/search-1.png
-    - images/reflecting-1.png
+
     - images/search-1-js2.png
     - images/home.png
     - images/logo2.png
@@ -48,6 +49,7 @@ flutter:
     - android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
     - images/email.png
     - images/capybara.png
+    - images/300x200.png
   #  - images/a_dot_ham.jpeg
   # fonts:
   #   - family: Schyler

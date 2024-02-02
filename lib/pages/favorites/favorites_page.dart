@@ -30,7 +30,7 @@ class FavoritesPage extends StatelessWidget {
                   },
                   child: ListTile(
                     leading: Image.network(
-                      property.coverPhoto ?? "",
+                     "",
                       width: 50,
                       height: 50,
                       fit: BoxFit.cover,

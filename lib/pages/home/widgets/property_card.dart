@@ -25,18 +25,18 @@ class PropertyCard extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(12.0),
                   child: CachedNetworkImage(
-                    imageUrl: property.coverPhoto ?? "",
+                    imageUrl: property.images.images,
                     fit: BoxFit.cover,
                     width: 300.0,
                     height: 200.0,
                     placeholder: (context, url) => Image.asset(
-                      'https://placehold.jp/300x200.jpg',
+                      'images/300x200.png',
                       fit: BoxFit.cover,
                       width: 300.0,
                       height: 200.0,
                     ),
                     errorWidget: (context, url, error) => Image.asset(
-                      'https://placehold.jp/300x450.jpg',
+                      'images/300x200.png',
                       fit: BoxFit.cover,
                       width: 300.0,
                       height: 450.0,
@@ -117,7 +117,7 @@ class PropertyCard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${property.rooms} rooms | ${property.baths} baths",
+                            "${property.bedrooms} rooms | ${property.bathrooms} baths",
                             style: TextStyle(
                               fontSize: 12.0,
                               color: Colors.grey[600],
@@ -125,7 +125,7 @@ class PropertyCard extends StatelessWidget {
                             ),
                           ),
                           Text(
-                            "UZS ${property.price}",
+                            " ${property.currency} ${property.price}",
                             style: TextStyle(
                               fontSize: 14.0,
                               color: Colors.blue,

@@ -1,37 +1,38 @@
-class Agent{
-  int? id;
-  String? name;
-  String? email;
-  String? phone;
-  String? photo;
+import 'package:real_estate/models/user_model.dart';
+import 'package:real_estate/models/contact_model.dart';
+
+class Agent {
+  final int id;
+  final User user;
+  final Contact contact;
+  final String license;
+  final double? rating;
+
   Agent({
-    this.id,
-    this.name,
-    this.email,
-    this.phone,
-    this.photo,
+    required this.id,
+    required this.user,
+    required this.contact,
+    required this.license,
+    this.rating,
   });
-  dynamic fromJson(Map<String, dynamic> json) {
+
+  factory Agent.fromJson(Map<String, dynamic> json) {
     return Agent(
-      id: json['id'] as int?,
-      name: json['name'] as String?,
-      email: json['email'] as String?,
-      phone: json['phone'] as String?,
-      photo: json['photo'] as String?,
+      id: json['id'],
+      user: User.fromJson(json['user']),
+      contact: Contact.fromJson(json['contact']),
+      license: json['license'],
+      rating: json['rating'],
     );
-
-    }
-  Map<String,dynamic> toJson(){
-    return{
-      'id':id,
-      'name':name,
-      'email':email,
-      'phone':phone,
-      'photo':photo,
-    };
-
   }
 
-
-
+  Map<String, dynamic> toJson() {
+    return {
+      'id': id,
+      'user': user.toJson(),
+      'contact': contact.toJson(),
+      'license': license,
+      'rating': rating,
+    };
+  }
 }

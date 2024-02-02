@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:real_estate/models/enums/currency.dart';
+import 'package:real_estate/models/image_model.dart';
 import 'widgets/icon_text.dart';
 import 'package:real_estate/pages/search/search_page.dart';
 import 'widgets/property_card.dart';
@@ -9,6 +11,10 @@ import 'package:real_estate/pages/property_details/property_details.dart';
 import 'package:real_estate/pages/favorites/favorites_page.dart';
 import 'package:real_estate/pages/profile/profile.dart';
 import 'package:real_estate/pages/notifications/app_notifications_page.dart';
+import 'package:http/http.dart'as http;
+import 'dart:convert';
+import 'view_all.dart';
+import 'dart:async';
 
 class HomePage extends StatefulWidget {
   final int? userId;
@@ -27,13 +33,63 @@ class _HomePageState extends State<HomePage> {
   late TextEditingController searchController;
   late bool isLoading;
 
+  List<Property> onRentProperties = [
+
+  ];
+  List<Property> onSaleProperties = [
+
+  ];
+
 
   @override
-  void initState() {
+  void initState()  {
     super.initState();
     searchController = TextEditingController();
     _username = widget.userId ?? 3;
+   fetchData();
+
   }
+  Future<void> fetchData() async {
+    setState(() {
+      isLoading = true;
+    });
+
+    try {
+      // Fetch featured properties
+      final onSaleResponse = await http.get(
+        Uri.parse('https://vivahomes.uz/v1/estates/?rent=false'),
+      );
+      if (onSaleResponse.statusCode == 200) {
+        final onSaleJson = json.decode(onSaleResponse.body);
+        onSaleProperties = (onSaleJson as List)
+            .map((property) => Property.fromJson(property))
+            .toList();
+      } else {
+        throw Exception('Failed to load featured properties');
+      }
+
+      // Fetch trending properties
+      final onRentResponse = await http.get(
+        Uri.parse('https://vivahomes.uz/v1/estates/?rent=true'));
+      if (onRentResponse.statusCode == 200) {
+        final onRentJson = json.decode(onRentResponse.body);
+        onRentProperties = (onRentJson as List)
+            .map((property) => Property.fromJson(property))
+            .toList();
+        print(onRentProperties[1].images.images);
+      } else {
+        throw Exception('Failed to load trending properties');
+      }
+    } catch (error) {
+      print('Error fetching data: $error');
+    } finally {
+      setState(() {
+        isLoading = false;
+      });
+    }
+  }
+
+
 
   @override
   void didChangeDependencies() {
@@ -51,67 +107,15 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    double screenHeight = MediaQuery.of(context).size.height;
+if(isLoading){return Center(child: CircularProgressIndicator(color: Colors.blue));} else{
+
+
     final now = DateTime.now();
     String currentDate = DateFormat('MMMMEEEEd').format(now);
     final TextEditingController searchController = TextEditingController();
     bool isLoading = false;
 
-    List<Property> featuredProperties = [
-      Property(
-        title: 'Beautiful Villa',
-        description: """A "Beautiful Villa" is more than just a house; it's a captivating haven that intertwines elegance with comfort. Imagine a residence where architectural mastery meets nature's embrace, creating a harmonious blend of luxury and tranquility.
 
-As you approach, the villa stands as a testament to exquisite design, featuring graceful lines, captivating details, and an aura of sophistication. The exterior, a picturesque canvas, showcases meticulous landscaping, perhaps framed by swaying palms or nestled against a backdrop of rolling hills.
-
-Upon entering, you're welcomed by a sense of openness. The interiors boast expansive spaces adorned with tasteful decor, where every element has been carefully chosen to evoke a feeling of opulence. Sunlight filters through large windows, casting a warm glow that accentuates the carefully curated furnishings.
-
-The heart of this beautiful villa is not just the structure itself but the lifestyle it offers. Imagine waking up to stunning views from a master suite that feels like a sanctuary. Picture a gourmet kitchen, a space where culinary artistry meets modern convenience, inviting you to create and entertain.
-
-Step outside, and the villa unfolds into a private oasis. A well-designed garden surrounds a sparkling pool, creating a retreat where the boundaries between indoor and outdoor living blur. It's a space for relaxation, for basking in the sun or enjoying an evening under the stars.
-
-Luxurious amenities abound – perhaps a spa-like bathroom, a home theater, or a cozy fireplace for intimate gatherings. Each room tells a story of meticulous craftsmanship and attention to detail.
-
-Privacy is paramount, with the villa ideally situated to offer seclusion while maintaining a connection to the beauty that surrounds it. Whether perched on a hillside or nestled within a gated community, this residence provides a retreat from the bustle of the world.
-
-A "Beautiful Villa" transcends the notion of a mere dwelling; it embodies a lifestyle. It's an investment in not just a property but in a curated experience that elevates daily living to an art form. This is where the canvas of your life is painted with moments of serenity, beauty, and the luxury of being at home.""",
-        baths: 3,
-        rooms: 4,
-        price: 100000000,
-        coverPhoto:
-        'https://i.pinimg.com/736x/0b/c1/c4/0bc1c4bafc0e48432178ca351929e4a1.jpg',
-      ),
-      Property(
-        title: 'Beautiful Villa',
-        description: 'Unbelievable price',
-        baths: 3,
-        rooms: 2,
-        price: 100000000,
-        coverPhoto:
-        'https://mir-s3-cdn-cf.behance.net/project_modules/1400/70983074973155.5c3f7fc151921.jpg',
-      ),
-    ];
-
-    List<Property> trendingProperties = [
-      Property(
-        title: 'Luxury Apartment',
-        description: '2 beds, 2 baths',
-        baths: 2,
-        rooms: 2,
-        price: 100000000,
-        coverPhoto:
-        'https://www.conradvillas.com/uploads/properties/103/ultra-luxury-bespoke-villas-in-bangkok-46297703.jpeg',
-      ),
-      Property(
-        title: 'Luxury Apartment',
-        description: ' 3 beds, 2 baths',
-        baths: 2,
-        rooms: 3,
-        price: 100000000,
-        coverPhoto:
-        'https://www.conradvillas.com/uploads/properties/103/ultra-luxury-bespoke-villas-in-bangkok-47475608.jpeg',
-      ),
-    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -282,16 +286,28 @@ A "Beautiful Villa" transcends the notion of a mere dwelling; it embodies a life
                     ),
                     SizedBox(height: 16),
                     GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        List<Property> properties = [];
                         if (searchController.text.isNotEmpty) {
                           String searchText = searchController.text;
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  SearchPage(searchText: searchText),
-                            ),
-                          );
+                          final response = await http.get(Uri.parse('https://vivahomes.uz/v1/estates/?search=$searchText'));
+                          if (response.statusCode == 200) {
+                            final List<dynamic> data = jsonDecode(response.body);
+
+                              properties = data.map((json) => Property.fromJson(json)).toList();
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    SearchPage(properties: properties  ),
+                              ),
+                            );
+                          } else {
+                            // Handle error when performing search
+                            print('Error performing search. Status code: ${response.statusCode}');
+                          }
+
+
                         } else {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(
@@ -325,9 +341,13 @@ A "Beautiful Villa" transcends the notion of a mere dwelling; it embodies a life
               ),
               SectionHeading(
 
-                text: "Featured" ,
+                text: "On Sale" ,
 
-                onTap: () {},
+                onTap: () {
+                 Navigator.push(context,  MaterialPageRoute(
+                    builder: (context) => ViewAllPage(properties: onSaleProperties),
+                  ));
+                },
               ),
               Padding(
                 padding: EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
@@ -338,24 +358,29 @@ A "Beautiful Villa" transcends the notion of a mere dwelling; it embodies a life
                   height: 350.0,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 2,
+                    itemCount: onSaleProperties.length,
                     itemBuilder: (ctx, index) {
                       return PropertyCard(
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => PropertyDetailsPage(
-                                property: featuredProperties[index],
+                                property: onSaleProperties[index],
                               ),
                             ),
                           );
                         },
-                        property: featuredProperties[index],                            );
+                        property: onSaleProperties[index],                            );
                     },
                   ),
                 ),
               ),
-              SectionHeading(text: "Trending", onTap: () {}),
+              SectionHeading(text: "On Rent", onTap: () {Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ViewAllPage(properties: onRentProperties),
+                ),
+              );}),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 3.0, vertical: 5.0),
                 child: isLoading
@@ -365,19 +390,19 @@ A "Beautiful Villa" transcends the notion of a mere dwelling; it embodies a life
                   height: 350.0,
                   child: ListView.builder(
                     scrollDirection: Axis.horizontal,
-                    itemCount: 2,
+                    itemCount: onRentProperties.length,
                     itemBuilder: (ctx, index) {
                       return PropertyCard(
                         onTap: () {
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => PropertyDetailsPage(
-                                property: trendingProperties[index],
+                                property: onRentProperties[index],
                               ),
                             ),
                           );
                         },
-                        property: trendingProperties[index],
+                        property: onRentProperties[index],
                       );
                     },
                   ),
@@ -388,7 +413,7 @@ A "Beautiful Villa" transcends the notion of a mere dwelling; it embodies a life
         ),
       ),
     );
-  }
+  }}
 }
 
 class bottombar extends StatefulWidget {
@@ -403,7 +428,7 @@ class bottombar extends StatefulWidget {
 }
 
 class _bottombarState extends State<bottombar> {
-  List<Property> favouriteProperties=[];
+
   late int _userId;
   int _currentIndex = 0;
   @override

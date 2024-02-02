@@ -1,70 +1,85 @@
-import 'agent_model.dart';
+import 'package:real_estate/models/enums/currency.dart';
+import 'package:real_estate/models/image_model.dart';
+
 class Property {
-  String? propertyID;
-  String? coverPhoto;
-  String? title;
-  String? location;
-  String? category;
-  String? description;
-  List<dynamic>? amenities;
-  int? productScore;
-  String? type;
-  int? rooms;
-  int? baths;
-  double? price;
-  // Agent agentid;
-  //
+  final int id;
+  final String title;
+  final String description;
+  final String? type;
+  final String price;
+  final String currency;
+  final bool? rent;
+  final String? marketValue;
+  final int bedrooms;
+  final int bathrooms;
+  final double? area;
+  final bool? status;
+  final DateTime? dateListed;
+  final int? address;
+  final int agent;
+  final CustomImage images;
+
   Property({
-    this.propertyID,
-    this.coverPhoto,
-    this.title,
-    this.location,
-    this.category,
-    this.description,
-    this.amenities,
-    this.productScore,
+    required this.id,
+    required this.title,
+    required this.price,
+    required this.currency,
+    required this.agent,
+    required this.images,
+    this.description = "",
     this.type,
-    this.rooms,
-    this.baths,
-    this.price,
-   // required this.agentid,
+    this.rent,
+    this.marketValue,
+    this.bedrooms = 0,
+    this.bathrooms = 0,
+    this.area,
+    this.status,
+    this.dateListed,
+    this.address,
   });
 
-  // Factory method to convert JSON into a PropertyModel instance
   factory Property.fromJson(Map<String, dynamic> json) {
     return Property(
-      propertyID: json['propertyID'] as String?,
-      coverPhoto: json['coverPhoto'] as String?,
-      title: json['title'] as String?,
-      location: json['location'] as String?,
-      category: json['category'] as String?,
-      description: json['description'] as String?,
-      amenities: json['amenities'] as List<dynamic>?,
-      productScore: json['productScore'] as int?,
+      id: json['id'] as int,
+      title: json['title'] as String,
+      description: json['description'] as String,
       type: json['type'] as String?,
-      rooms: json['rooms'] as int?,
-      baths: json['baths'] as int?,
-      price: json['price'] as double?,
-      //agentid: json['agentid'] as Agent,
+      price: json['price'] as String,
+      currency: json['currency'] as String,
+      rent: json['rent'] as bool?,
+      marketValue:
+      json['market_value']?.toString(), // Convert to String if necessary
+      bedrooms: json['bedrooms'] as int? ?? 0,
+      bathrooms: json['bathrooms'] as int? ?? 0,
+      area: json['area'] as double?,
+      status: json['status'] as bool?,
+      dateListed: json['date_listed'] != null
+          ? DateTime.parse(json['date_listed'] as String)
+          : null,
+      address: json['address'] as int?,
+      agent: json['agent'] as int,
+      images: CustomImage.fromJson(json['image']),
     );
   }
 
-  // Convert PropertyModel instance to JSON
   Map<String, dynamic> toJson() {
     return {
-      'propertyID': propertyID,
-      'coverPhoto': coverPhoto,
+      'id': id,
       'title': title,
-      'location': location,
-      'category': category,
-      'amenities': amenities,
       'description': description,
-      'productScore': productScore,
       'type': type,
-      'rooms': rooms,
-      'baths': baths,
       'price': price,
-      // 'agentid': agentid,
+      'currency': currency,
+      'rent': rent,
+      'market_value': marketValue,
+      'bedrooms': bedrooms,
+      'bathrooms': bathrooms,
+      'area': area,
+      'status': status,
+      'date_listed': dateListed?.toIso8601String(),
+      'address': address,
+      'agent': agent,
+      'images': images.toJson(),
     };
   }
 }

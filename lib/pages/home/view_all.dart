@@ -1,19 +1,19 @@
-// search_page.dart
+// view_all_page.dart
 
 import 'package:flutter/material.dart';
 import 'package:real_estate/models/property_model.dart';
 import 'package:real_estate/pages/property_details/property_details.dart';
 
-class SearchPage extends StatelessWidget {
+class ViewAllPage extends StatelessWidget {
   final List<Property> properties;
 
-  const SearchPage({Key? key, required this.properties}) : super(key: key);
+  ViewAllPage({required this.properties});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Search Results'),
+        title: Text('View All Properties'),
         backgroundColor: const Color(0xffccd5f0),
       ),
       body: ListView.builder(

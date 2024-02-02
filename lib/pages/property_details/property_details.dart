@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:real_estate/models/property_model.dart';
 import 'package:photo_view/photo_view.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+import 'dart:convert';
+import 'package:real_estate/models/agent_model.dart';
+import 'package:http/http.dart' as http;
 class PropertyDetailsPage extends StatefulWidget {
   final Property property;
 
@@ -11,12 +15,41 @@ class PropertyDetailsPage extends StatefulWidget {
   _PropertyDetailsPageState createState() => _PropertyDetailsPageState();
 }
 
+
 class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
   bool showFullDescription = false;
+  Agent? agent;
+@override
+  void initState() {
+  fetchAgentInfo();
+    super.initState();
+  }
+
+    Future<void> fetchAgentInfo() async {
+      try {
+        // Replace 'YOUR_AGENT_API_ENDPOINT' with the actual API endpoint for fetching agent details
+        final response = await http.get(
+          Uri.parse('https://vivahomes.uz/v1/agents/${widget.property.agent}'),
+        );
+
+        if (response.statusCode == 200) {
+          final Map<String, dynamic> agentData = json.decode(response.body);
+          setState(() {
+            agent = Agent.fromJson(agentData);
+          });
+        } else {
+          print('Failed to load agent details. Status code: ${response.statusCode}');
+        }
+      } catch (error) {
+        print('Error fetching agent details: $error');
+      }
+    }
+
 
   @override
   Widget build(BuildContext context) {
     String description = widget.property.description ?? '';
+
     String truncatedDescription =
     showFullDescription ? description : (description.length > 200 ? description.substring(0, 200) + '...' : description);
 
@@ -43,7 +76,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                     child: PhotoView(
                       gestureDetectorBehavior: HitTestBehavior.translucent,
                       backgroundDecoration: BoxDecoration(color: Colors.transparent),
-                      imageProvider: AssetImage('images/house.jpg'),
+                      imageProvider: CachedNetworkImageProvider(widget.property.images.images ),
                     ),
                   ),
                 );
@@ -53,8 +86,8 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                   color: Color(0xffccd5f0).withOpacity(0.2),
                   borderRadius: BorderRadius.circular(12.0),
                 ),
-                child: Image.asset(
-                  'images/house.jpg',
+                child: CachedNetworkImage(
+                  imageUrl:widget.property.images.images ,
                   width: double.infinity,
                   fit: BoxFit.cover,
                 ),
@@ -82,7 +115,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                           height: 40.0,
 
                           decoration: BoxDecoration(
-                            color: Color(0x00000000),
+                            color: const Color(0xffccd5f0).withOpacity(0.2),
                       backgroundBlendMode: BlendMode.colorBurn,
                             borderRadius: BorderRadius.circular(12.0),
                           ),
@@ -129,7 +162,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                                     children: [
                                       Icon(Icons.king_bed, color: Color(0xff350f9c)),
                                       SizedBox(width: 5),
-                                      Text('Rooms: ${widget.property.rooms ?? "N/A"}'),
+                                      Text('Rooms: ${widget.property.bedrooms ?? "N/A"}'),
                                     ],
                                   ),
 
@@ -138,7 +171,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                                     children: [
                                       Icon(Icons.bathtub, color: Color(0xff350f9c)),
                                       SizedBox(width: 5),
-                                      Text('Bathrooms: ${widget.property.baths ?? "N/A"}'),
+                                      Text('Bathrooms: ${widget.property.bathrooms?? "N/A"}'),
                                     ],
                                   ),
                                 ],
@@ -155,7 +188,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                                     children: [
                                       Icon(Icons.square_foot, color: Color(0xff350f9c)),
                                       SizedBox(width: 5),
-                                      Text('Area: ${widget.property.baths?? "N/A"} sqft'),
+                                      Text('Area: ${widget.property.bathrooms?? "N/A"} sqft'),
                                     ],
                                   ),
 
@@ -212,7 +245,21 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       Text(
-                        'Price: \$${widget.property.price ?? ""}',
+                        'Market Value: ${widget.property.currency} ${widget.property.marketValue ?? ""}',
+                        style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, color: Color(0xff350f9c)),
+                      ),
+                    ],
+
+
+
+                  ),
+                  Row(children: [SizedBox(width: 150,),
+                  Container(height: 2,width: 210,color: Color(0xff350f9c),)],),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Text(
+                        'Price: ${widget.property.currency} ${widget.property.price ?? ""}',
                         style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Color(0xff350f9c)),
                       ),
                     ],
@@ -226,7 +273,7 @@ class _PropertyDetailsPageState extends State<PropertyDetailsPage> {
                       ElevatedButton(onPressed: (){
                         showDialog(context: context, builder: (context) => AlertDialog(
                           title: Text("Contact", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Color(0xff350f9c)),),
-                          content: GestureDetector(onTap: (){_launchPhone('+998 99 999 99 99');},child: Text("Phone: +998 99 999 99 99\nEmail: agent_boyan@email.idk",style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xff350f9c)),)),));
+                          content: GestureDetector(onTap: (){_launchPhone(agent?.contact.phone);},child: Text("${agent?.contact.phone}\nEmail: agent_boyan@email.idk",style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold, color: Color(0xff350f9c)),)),));
                       }, child: Text("Contacts",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Color(0xffffffff)),),
                           style: ElevatedButton.styleFrom(
                             padding:
